@@ -22,7 +22,8 @@
         <button onclick='addNewItem()'>Submit</button>
     </div>
     <div>
-        
+        <h1>Item List</h1>
+        <ul id="item-list"></ul>
     </div>
     <script>
         async function addNewItem() {
@@ -51,6 +52,17 @@
                 return false;
             }).catch(e => console.log(e)); 
         }
+
+        async function getData() {
+            console.log("HEllo");
+            let data = await fetch("http://localhost:8000/api/get_item", {
+                method: 'GET',
+                mode:"no-cors",
+            }).then(res => console.log(res))
+            .catch(e => console.log(e)); 
+            console.log(data);
+        }
+        getData();
     </script>
 </body>
 </html>

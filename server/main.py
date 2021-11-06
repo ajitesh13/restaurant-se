@@ -24,8 +24,8 @@ async def root():
 
 @app.post("/api/add_item")
 async def add_item(item: Item):
-    database = db.client.Restaurant.item_list
     try:
+        database = db.client.Restaurant.item_list
         name = item.__dict__['name']
         data = database.find_one({"name": name})
         if data == None:
@@ -35,3 +35,12 @@ async def add_item(item: Item):
                 {"name": name}, {"$set": {"quantity": data['quantity'] + item.__dict__['quantity']}})
     except:
         print("Couldn't Insert Data")
+
+
+@app.get("/api/get_item")
+async def get_item():
+    database = db.client.Restaurant.item_list
+    data_arr = database.find()
+    for x in data_arr:
+        print(x)
+    return []
