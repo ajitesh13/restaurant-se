@@ -1,0 +1,56 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Items</title>
+</head>
+<body>
+    <div>
+        <h1>Add New Items</h1>
+        <p>Fill the details below to add new items</p>
+        <label>Name</label>
+        <input type="text" name="itemName" id="itemName"/>
+        <label>Quantity</label>
+        <input type="number" name="itemQuantity" id="itemQuantity"/>
+        <label>Units</label>
+        <select id="itemUnit">
+            <option value="kilograms">Kilograms</option>
+            <option value="litres">Liters</option>
+            <option value="pieces">Pieces</option>
+        </select>
+        <button onclick='addNewItem()'>Submit</button>
+    </div>
+    <div>
+        
+    </div>
+    <script>
+        async function addNewItem() {
+            let itemName = document.getElementById("itemName").value;
+            let itemQuantity = document.getElementById("itemQuantity").value;
+            let itemUnit = document.getElementById("itemUnit").value;
+            let obj = {};
+            obj["name"] = itemName;
+            obj["quantity"] = itemQuantity;
+            obj["unit"] = itemUnit;
+            // document.getElementById("itemName").value = "";
+            // document.getElementById("itemQuantity").value = "";
+            // document.getElementById("itemUnit").value = "kilograms";
+            console.log(obj); 
+            const response = await fetch("http://localhost:8000/api/add_item", {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(obj)
+            }).then((res) => {
+                console.log(res);
+                location.reload();
+                return false;
+            }).catch(e => console.log(e)); 
+        }
+    </script>
+</body>
+</html>
