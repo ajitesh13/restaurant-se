@@ -15,7 +15,11 @@
     <div id="input-tile"></div>
     <button onclick="addIngredientTile()">Add Ingredient Tile</button>
     <button onclick="addToMenu()">Add to Menu</button>
+    <h1>Menu</h1>
+    <ul id="menu-list"></ul>
+    <!-- <script src="menuScript.js"></script> -->
     <script>
+        getMenu();
         let numberOfIngredient = 0;
         async function addToMenu() {
             // console.log(numberOfIngredient);
@@ -28,7 +32,8 @@
             let obj = {};
             obj['name'] = document.getElementById("itemName").value;
             obj['price'] = document.getElementById("itemPrice").value;
-            obj['ingredientArray'] = ingredientArray;
+            obj['ingredients'] = ingredientArray;
+            console.log(obj);
             const response = await fetch("http://localhost:8000/api/add_to_menu", {
                 method: 'POST',
                 mode: 'cors',
@@ -63,6 +68,17 @@
         async function removeIngredientTile() {
             let elem = document.getElementById("input-tile");
             elem.removeChild(elem.lastChild);
+        }
+
+        async function getMenu() {
+            const data = await fetch("http://localhost:8000/api/get_menu").then(res => res.json());
+            console.log(data);
+            for (let i=0; i<data.length; i++) {
+                let elem = document.getElementById("menu-list");
+                let childElem = document.createElement("li");
+                childElem.innerHTML = data[i]['name'] + "   " + data[i]['price'];
+                elem.appendChild(childElem)
+            }
         }
     </script>
 </body>

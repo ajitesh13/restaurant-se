@@ -83,4 +83,17 @@ async def add_to_menu(req: MenuItem):
     # add to order list(new collection) and subract those ingredients from them from the item list
 
 
-# @app.get("/api/")
+@app.get("/api/get_menu")
+async def get_menu():
+    try:
+        database = db.client.Restaurant.Menu
+        data_arr = []
+        for x in database.find():
+            obj = {}
+            obj['name'] = x['name']
+            obj['price'] = x['price']
+            data_arr.append(obj)
+        print(data_arr)
+        return data_arr
+    except:
+        print("Couldn't get Menu")
