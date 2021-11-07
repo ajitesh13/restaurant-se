@@ -1,9 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import db
 import json
 from model import *
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import UJSONResponse
 
 app = FastAPI()
 
@@ -40,7 +42,13 @@ async def add_item(item: Item):
 @app.get("/api/get_item")
 async def get_item():
     database = db.client.Restaurant.item_list
-    data_arr = database.find()
-    for x in data_arr:
-        print(x)
-    return []
+    data_arr = []
+    for x in database.find():
+        obj = {}
+        obj['name'] = x['name']
+        obj['quantity'] = x['quantity']
+        obj['unit'] = x['unit']
+        data_arr.append(obj)
+        # data_arr.append(x)
+    print(data_arr)
+    return data_arr

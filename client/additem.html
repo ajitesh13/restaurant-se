@@ -26,6 +26,7 @@
         <ul id="item-list"></ul>
     </div>
     <script>
+        getItem();
         async function addNewItem() {
             let itemName = document.getElementById("itemName").value;
             let itemQuantity = document.getElementById("itemQuantity").value;
@@ -53,16 +54,16 @@
             }).catch(e => console.log(e)); 
         }
 
-        async function getData() {
-            console.log("HEllo");
-            let data = await fetch("http://localhost:8000/api/get_item", {
-                method: 'GET',
-                mode:"no-cors",
-            }).then(res => console.log(res))
-            .catch(e => console.log(e)); 
+        async function getItem() {
+            const data = await fetch("http://localhost:8000/api/get_item").then(res => res.json());
             console.log(data);
+            for (let i=0; i<data.length; i++) {
+                let elem = document.getElementById("item-list");
+                let childElem = document.createElement("li");
+                childElem.innerHTML = data[i]['name'] + ": " + data[i]['quantity'] + " " + data[i]['unit'];
+                elem.appendChild(childElem)
+            }
         }
-        getData();
     </script>
 </body>
 </html>
