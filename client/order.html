@@ -7,5 +7,95 @@
 </head>
 <body>
     <h1>Place Order</h1>
+    <div id="input-tile"></div>
+    <button onclick="addIngredientTile()">Add Item</button>
+    <button onclick="calculatePrice()">Place Order</button>
+    <h2 id="cost-display"></h2>
+    <div id="order-display"></div>
+    <button onclick="downloadInvoice()">Download Order</button>
+    <script>
+        let orderItem = 0;
+        function addIngredientTile() {
+            orderItem++;
+            let elem = document.getElementById("input-tile");
+            let newDiv = document.createElement("div");
+            newDiv.setAttribute("id", "ingredient-list")
+            let nameInputField = document.createElement("input");
+            nameInputField.setAttribute("id", `${orderItem}-name`);
+            nameInputField.setAttribute("type", "text");
+            nameInputField.setAttribute("placeholder", "Add Item");
+            let quantityInputField = document.createElement("input");
+            quantityInputField.setAttribute("id", `${orderItem}-quantity`);
+            quantityInputField.setAttribute("type", "number");
+            quantityInputField.setAttribute("placeholder", "Quantity");
+            let newButton = document.createElement("button");
+            newButton.innerHTML = "X";
+            newButton.setAttribute("onClick", "removeIngredientTile()");
+            let nameDiv = document.createElement("span");
+            let quantityDiv = document.createElement("span");
+            let deleteButtonDiv = document.createElement("span");
+            let space = document.createElement("span");
+            space.innerHTML = " ";
+            nameDiv.appendChild(nameInputField);
+            quantityDiv.appendChild(quantityInputField);
+            deleteButtonDiv.appendChild(newButton);
+            elem.appendChild(newDiv);
+            newDiv.appendChild(nameDiv);
+            // newDiv.appendChild(space);
+            newDiv.appendChild(quantityDiv);
+            newDiv.appendChild(space);
+            newDiv.appendChild(deleteButtonDiv);
+        }
+
+        function removeIngredientTile() {
+            let elem = document.getElementById("input-tile");
+            elem.removeChild(elem.lastChild);
+        }
+
+        async function calculatePrice() {
+            // console.log("Hello World");
+            // iterate through all the added items and take their price from the 
+            // menu database and show their total combined price
+            let orderItemArray = [];
+            let totalCost = 0;
+            for (let i=1; i<=orderItem; i++) {
+                let itemObj = {};
+                let itemName = document.getElementById(`${i}-name`).value.trim();
+                let itemQuantity = document.getElementById(`${i}-quantity`).value.trim();
+                itemObj['name'] = itemName;
+                itemObj['quantity'] = itemQuantity;
+                orderItemArray.push(itemObj);
+                console.log(itemObj);
+                let obj = {};
+                obj['name'] = itemName;
+                const response = await fetch("http://localhost:8000/api/get_cost", {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(obj)
+                }).then((res) => res.json()).catch(e => console.log(e)); 
+                console.log("Here is the response: ", response);
+                totalCost += itemQuantity*response;
+            }
+            let showCost = document.getElementById("cost-display");
+            showCost.innerHTML = "Total Order value : " + totalCost;
+            console.log(totalCost);
+            console.log(orderItemArray);
+            // console.log(orderItemArray);
+        }
+
+        function placeOrder() {
+            // take the item array from the menu and reduce their quantity by one unit 
+            // and do the operation to find out if any item is below stock 
+        }
+
+        function downloadInvoice() {
+            // download the order invoice 
+            console.log("Download invoice");
+        }
+    </script>
 </body>
 </html>

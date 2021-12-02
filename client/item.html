@@ -28,9 +28,9 @@
     <script>
         getItem();
         async function addNewItem() {
-            let itemName = document.getElementById("itemName").value;
-            let itemQuantity = document.getElementById("itemQuantity").value;
-            let itemUnit = document.getElementById("itemUnit").value;
+            let itemName = document.getElementById("itemName").value.trim();
+            let itemQuantity = document.getElementById("itemQuantity").value.trim();
+            let itemUnit = document.getElementById("itemUnit").value.trim();
             let obj = {};
             obj["name"] = itemName;
             obj["quantity"] = itemQuantity;
@@ -60,7 +60,7 @@
             for (let i=0; i<data.length; i++) {
                 let elem = document.getElementById("item-list");
                 let childElem = document.createElement("li");
-                childElem.innerHTML = data[i]['name'] + ": " + data[i]['quantity'] + " " + data[i]['unit'];
+                childElem.innerHTML = "<b>" + data[i]['name'] + " : </b> " + data[i]['quantity'] + " " + data[i]['unit'];
                 elem.appendChild(childElem)
             }
         }

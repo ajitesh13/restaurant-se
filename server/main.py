@@ -90,6 +90,7 @@ async def get_menu():
         data_arr = []
         for x in database.find():
             obj = {}
+            # obj['_id'] = x['_id']
             obj['name'] = x['name']
             obj['price'] = x['price']
             data_arr.append(obj)
@@ -97,3 +98,21 @@ async def get_menu():
         return data_arr
     except:
         print("Couldn't get Menu")
+
+# Place order API
+# get cost API
+
+
+@app.post("/api/get_cost")
+async def get_cost(req: ItemCost):
+    try:
+        itemName = req.__dict__['name']
+        print(itemName)
+        database = db.client.Restaurant.Menu
+        data = database.find_one({'name': itemName})
+        if data == None:
+            return "No data found"
+        else:
+            return data['price']
+    except:
+        print("Couldn't get item cost")

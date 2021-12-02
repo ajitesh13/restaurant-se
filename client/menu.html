@@ -25,12 +25,12 @@
             // console.log(numberOfIngredient);
             let ingredientArray = [];
             for (let i=1; i<=numberOfIngredient; i++) {
-                let ingredient = document.getElementById(i).value;
+                let ingredient = document.getElementById(i).value.trim();
                 ingredientArray.push(ingredient);
             }
             console.log(ingredientArray);
             let obj = {};
-            obj['name'] = document.getElementById("itemName").value;
+            obj['name'] = document.getElementById("itemName").value.trim();
             obj['price'] = document.getElementById("itemPrice").value;
             obj['ingredients'] = ingredientArray;
             console.log(obj);
@@ -48,7 +48,8 @@
                 return false;
             }).catch(e => console.log(e)); 
         }
-        async function addIngredientTile() {
+
+        function addIngredientTile() {
             numberOfIngredient++;
             let elem = document.getElementById("input-tile");
             let newDiv = document.createElement("div");
@@ -65,7 +66,7 @@
             newDiv.appendChild(newButton);
         }
 
-        async function removeIngredientTile() {
+        function removeIngredientTile() {
             let elem = document.getElementById("input-tile");
             elem.removeChild(elem.lastChild);
         }
@@ -76,7 +77,7 @@
             for (let i=0; i<data.length; i++) {
                 let elem = document.getElementById("menu-list");
                 let childElem = document.createElement("li");
-                childElem.innerHTML = data[i]['name'] + "   " + data[i]['price'];
+                childElem.innerHTML = /* data[i]['_id'] + "  " + */  data[i]['name'] + "   " + data[i]['price'];
                 elem.appendChild(childElem)
             }
         }

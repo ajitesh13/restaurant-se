@@ -11,3 +11,7 @@ class MenuItem(BaseModel):
     name: str
     price: int
     ingredients: list
+
+
+class ItemCost(BaseModel):
+    name: str
