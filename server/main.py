@@ -99,7 +99,6 @@ async def get_menu():
     except:
         print("Couldn't get Menu")
 
-# Place order API
 # get cost API
 
 
@@ -116,3 +115,5 @@ async def get_cost(req: ItemCost):
             return data['price']
     except:
         print("Couldn't get item cost")
+
+# place order API

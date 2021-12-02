@@ -12,6 +12,7 @@
     <button onclick="calculatePrice()">Place Order</button>
     <h2 id="cost-display"></h2>
     <div id="order-display"></div>
+    <br/>
     <button onclick="downloadInvoice()">Download Order</button>
     <script>
         let orderItem = 0;
@@ -84,12 +85,20 @@
             showCost.innerHTML = "Total Order value : " + totalCost;
             console.log(totalCost);
             console.log(orderItemArray);
+            for (let i=0; i<orderItemArray.length; i++) {
+                let itemNameSpan = document.createElement("span");
+                itemNameSpan.innerHTML = orderItemArray[i]['name'] + " - " + orderItemArray[i]['quantity'];
+                let newItemDiv = document.createElement("div");
+                newItemDiv.appendChild(itemNameSpan);
+                document.getElementById("order-display").append(newItemDiv);
+            }
             // console.log(orderItemArray);
         }
 
         function placeOrder() {
             // take the item array from the menu and reduce their quantity by one unit 
             // and do the operation to find out if any item is below stock 
+
         }
 
         function downloadInvoice() {
